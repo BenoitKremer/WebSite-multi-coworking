@@ -1,15 +1,15 @@
 import './App.css';
-import Navbar from './Navbar';
-import Home from './Home';
+import Menu from './Menu';
+import Tools from './Tools';
+import Database from './Database';
 
 function App() {
+
   return (
-    <div className="App">
-      <Navbar />
-      <div className="content">
-        <Home />
-        <p>This is the content of the App component.</p>
-      </div>
+    <div className="App grid grid-rows-8 grid-cols-8 gap-5">
+      <Menu />
+      <Tools />
+      <Database />
     </div>
   );
 }
