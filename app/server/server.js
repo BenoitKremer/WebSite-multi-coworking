@@ -4,6 +4,12 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
 
 
 app.listen(3300, () => {
@@ -12,14 +18,23 @@ app.listen(3300, () => {
 
 client.connect();
 
+app.get('/columns/:table', (req, res)=>{
+  client.query(`Select column_name from information_schema.columns where table_name='${req.params.table}'`, (err, result)=>{
+    if(!err){
+      res.send(result.rows);
+    }
+  });
+})
+
 app.get('/users', (req, res)=>{
   client.query('Select * from users', (err, result)=>{
     if(!err){
       res.send(result.rows);
     }
   });
-  client.end;
 })
+
+
 
 app.get('/users/:id', (req, res)=>{
   client.query(`Select * from users where id=${req.params.id}`, (err, result)=>{
@@ -27,7 +42,6 @@ app.get('/users/:id', (req, res)=>{
       res.send(result.rows);
     }
   });
-  client.end;
 })
 
 app.post('/users', (req, res)=>{
@@ -48,7 +62,6 @@ app.post('/users', (req, res)=>{
       console.log(err.message)
     }
   })
-  client.end;
 })
 
 app.put('/users/:id', (req, res)=>{
@@ -69,7 +82,6 @@ app.put('/users/:id', (req, res)=>{
       console.log(err.message)
     }
   })
-  client.end;
 })
 
 app.delete('/users/:id', (req, res)=>{
@@ -83,5 +95,4 @@ app.delete('/users/:id', (req, res)=>{
       console.log(err.message)
     }
   })
-  client.end;
 })
