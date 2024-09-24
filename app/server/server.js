@@ -18,7 +18,7 @@ app.listen(3300, () => {
 
 client.connect();
 
-app.get('/columns/:table', (req, res)=>{
+app.get('/columns/:table', async(req, res)=>{
   client.query(`Select column_name from information_schema.columns where table_name='${req.params.table}'`, (err, result)=>{
     if(!err){
       res.send(result.rows);
@@ -26,7 +26,7 @@ app.get('/columns/:table', (req, res)=>{
   });
 })
 
-app.get('/users', (req, res)=>{
+app.get('/users', async(req, res)=>{
   client.query('Select * from users', (err, result)=>{
     if(!err){
       res.send(result.rows);
